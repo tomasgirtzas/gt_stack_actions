@@ -1,0 +1,21 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  runner:
+    image: gt-action-runner:2.338-latest   # or your Harbor path, e.g. harbor.example.com/project/gt-action-runner:2.338-latest
+    restart: unless-stopped
+    environment:
+      GITHUB_URL: ${GITHUB_REP_PAT}   # or just the org URL for an org-level runner
+      GITHUB_PAT: ${GITHUB_PAT}                           # read from .env, don't hard-code
+      RUNNER_NAME: local-runner-1
+      RUNNER_LABELS: self-hosted,linux,x64,local
+    volumes:
+      - runner-work:/home/runner/actions-runner/_work
+    logging: *default-logging
+
+volumes:
+  runner-work:
