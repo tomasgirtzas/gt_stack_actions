@@ -13,8 +13,8 @@ services:
       RUNNER_SCOPE: repo
       REPO_URL: ${REPO_URL}
       ACCESS_TOKEN: ${ACCESS_TOKEN}
-      RUNNER_NAME: coolify-runner
-      LABELS: coolify
+      RUNNER_NAME: gt-runner
+      LABELS: gtrunner
       RUNNER_WORKDIR: /tmp/github-runner/work
       UNSET_CONFIG_VARS: "true"
     volumes:
