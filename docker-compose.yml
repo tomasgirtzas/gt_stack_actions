@@ -6,16 +6,17 @@ x-logging: &default-logging
 
 services:
   runner:
-    image: gt-action-runner:2.338-latest   # or your Harbor path, e.g. harbor.example.com/project/gt-action-runner:2.338-latest
+    image: myoung34/github-runner:ubuntu-noble
     restart: unless-stopped
-    environment:
-      GITHUB_URL: ${GITHUB_REP_PAT}   # or just the org URL for an org-level runner
-      GITHUB_PAT: ${GITHUB_PAT}                           # read from .env, don't hard-code
-      RUNNER_NAME: local-runner-1
-      RUNNER_LABELS: self-hosted,linux,x64,local
-    volumes:
-      - runner-work:/home/runner/actions-runner/_work
     logging: *default-logging
-
-volumes:
-  runner-work:
+    environment:
+      RUNNER_SCOPE: repo
+      REPO_URL: ${REPO_URL}
+      ACCESS_TOKEN: ${ACCESS_TOKEN}
+      RUNNER_NAME: coolify-runner
+      LABELS: coolify
+      RUNNER_WORKDIR: /tmp/github-runner/work
+      UNSET_CONFIG_VARS: "true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/github-runner/work:/tmp/github-runner/work
